@@ -22,6 +22,7 @@ let channel_names = [
 
 try {
     channel_names = fs.readFileSync('/etc/discord-autochannel/channel_names').toString().split("\n");
+    console.log(`Got ${channel_names.length} channel names from config file`);
 }
 catch (e) {
     console.warn("Could not read channel names from file, using default names.", e);
@@ -62,8 +63,10 @@ client.on('voiceStateUpdate', async (before, after) => {
 });
 
 async function create_channel_for_member(member, template_channel) {
+    new_name = `${channel_prefix} ${channel_names[Math.floor(channel_names.length * Math.random())]}`;
+    console.log(`Creating channel: ${new_name}`);
     new_channel = await template_channel.clone({
-        name: `${channel_prefix} ${channel_names[Math.floor(channel_names.length * Math.random())]}`,
+        name: new_name,
         reason: 'Auto Voice Channel',
         position: 999
     });
