@@ -7,7 +7,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 const magic_channel_name = "Join Me!";
 const channel_prefix = "[AC]";
-const channel_names = [
+let channel_names = [
     'Eisen 2',
     'ezpz',
     'Holzauge',
@@ -20,21 +20,28 @@ const channel_names = [
     'Sweating',
 ];
 
+try {
+    channel_names = fs.readFileSync('/etc/discord-autochannel/channel_names').toString().split("\n");
+}
+catch (e) {
+    console.warn("Could not read channel names from file, using default names.", e);
+}
+
 let managed_channels = [];
 client.on('ready', async (client) => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  client.channels.cache.forEach(channel => {
-    if (channel.name.startsWith(channel_prefix)) {
-        if (channel.members.size > 0) {
-            managed_channels.push(channel);
-        } else {
-            channel.delete();
+    console.log(`Logged in as ${client.user.tag}!`);
+    client.channels.cache.forEach(channel => {
+        if (channel.name.startsWith(channel_prefix)) {
+            if (channel.members.size > 0) {
+                managed_channels.push(channel);
+            } else {
+                channel.delete();
+            }
         }
-    }
-    if (channel.name === magic_channel_name) {
-        channel.members.forEach(member => create_channel_for_member(member, channel));
-    }
-  });
+        if (channel.name === magic_channel_name) {
+            channel.members.forEach(member => create_channel_for_member(member, channel));
+        }
+    });
 
 });
 
