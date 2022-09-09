@@ -65,7 +65,7 @@ client.on('voiceStateUpdate', async (before, after) => {
 async function create_channel_for_member(member, template_channel) {
     let new_name = `${channel_prefix} ${channel_names[Math.floor(channel_names.length * Math.random())]}`;
     console.log(`Creating channel: ${new_name}`);
-    new_channel = await template_channel.clone({
+    let new_channel = await template_channel.clone({
         name: new_name,
         reason: 'Auto Voice Channel',
         position: 999
