@@ -23,7 +23,6 @@ let channel_names = [
 try {
     channel_names = fs.readFileSync('/etc/discord-autochannel/channel_names').toString().split("\n");
     console.log(`Got ${channel_names.length} channel names from config file`);
-    console.log(channel_names[Math.floor(channel_names.length * Math.random())]);
 }
 catch (e) {
     console.warn("Could not read channel names from file, using default names.", e);
