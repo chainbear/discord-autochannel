@@ -50,12 +50,13 @@ client.on('voiceStateUpdate', async (before, after) => {
     if (before.channel != null && managed_channels.includes(before.channel)) {
         if (before.channel.members.size == 0) {
             managed_channels = managed_channels.filter(channel => channel !== before.channel);
+            console.log(`Deleting channel ${before.channel.name}`);
             await before.channel.delete();
         }
     }
 
     if (after.channel != null && after.channel.name === magic_channel_name) {
-
+        
         create_channel_for_member(after.member, after.channel);
 
     }
@@ -64,7 +65,7 @@ client.on('voiceStateUpdate', async (before, after) => {
 
 async function create_channel_for_member(member, template_channel) {
     let new_name = `${channel_prefix} ${channel_names[Math.floor(channel_names.length * Math.random())]}`;
-    console.log(`Creating channel: ${new_name}`);
+    console.log(`Creating channel ${new_name} for ${member.name}`);
     let new_channel = await template_channel.clone({
         name: new_name,
         reason: 'Auto Voice Channel',
