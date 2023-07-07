@@ -2,6 +2,11 @@ name: Docker Image CI
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+  packages: write
+  id-token: write  # This is needed for OIDC federation.
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -9,6 +14,11 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3.5.3
+      -
+        name: Chainguard Login
+        uses: chainguard-dev/actions/setup-chainctl@main
+        with:
+          identity: 3e1bbf75871e9233b44648ebecdde5443b172469/a9cd0a416ba198eb
       -
         name: Docker meta
         id: meta
