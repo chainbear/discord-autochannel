@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/node:latest
+FROM node:20-alpine
 
 WORKDIR /app
 
