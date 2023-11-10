@@ -19,11 +19,6 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4.1.1
       -
-        name: Chainguard Login
-        uses: chainguard-dev/actions/setup-chainctl@main
-        with:
-          identity: 3e1bbf75871e9233b44648ebecdde5443b172469/010b36abf2d36997
-      -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
