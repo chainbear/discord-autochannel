@@ -1,6 +1,10 @@
 name: Docker Image CI
 
-on: [push]
+on:
+  push:
+  pull_request: 
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -15,11 +19,6 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4.1.1
       -
-        name: Chainguard Login
-        uses: chainguard-dev/actions/setup-chainctl@main
-        with:
-          identity: 3e1bbf75871e9233b44648ebecdde5443b172469/010b36abf2d36997
-      -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -30,6 +29,9 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
+            type=ref,event=branch,suffix={{date 'YYYYMMDD-HHmmss'}}
+            type=ref,event=tag
+            type=ref,event=pr
             type=sha
       -
         name: Set up QEMU
