@@ -31,7 +31,7 @@ chokidar.watch(CHANNEL_NAMES_FILE, { awaitWritefinish: true }).on('all', (event,
 });
 
 let managedChannels_ = [];
-client.on('ready', async (client) => {
+client.on('clientReady', async (client) => {
     console.log(`Logged in as ${client.user.tag}!`);
     client.channels.cache.forEach(channel => {
         if (channel.name.startsWith(CHANNEL_PREFIX)) {
