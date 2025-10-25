@@ -50,7 +50,7 @@ client.on('clientReady', async (client) => {
 
 client.on('voiceStateUpdate', async (before, after) => {
     if (before.channel != null && managedChannels_.includes(before.channel)) {
-        if (before.channel.members.size == 0) {
+        if (before.channel.members.size === 0) {
             managedChannels_ = managedChannels_.filter(channel => channel !== before.channel);
             console.log(`Deleting channel ${before.channel.name}`);
             await before.channel.delete();
@@ -101,4 +101,12 @@ function setChannelNamesFromFile(filename) {
         });
 }
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN).then(
+    () => {
+        console.log("Login successful.");
+    },
+    (err) => {
+        console.error(`Login failed with error: ${err}`);
+        process.exit(1);
+    }
+);
